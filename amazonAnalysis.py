@@ -9,7 +9,9 @@ pattern = r"of.*(\d+?)results for"
 
 # ???????url
 def generateAmzaonUrl(keyword='huawei'):
-    urlAmazon = 'https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=' + keyword
+    keyword = '+'.join(re.split(r'\s+', keyword.strip()))
+    urlAmazon = r"https://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords="\
+                +keyword + r"&rh=i%3Aaps%2Ck%3A" + keyword
     return urlAmazon
 
 # ????url?html????
@@ -40,7 +42,7 @@ def getResultNumByKewords(keywords, outFilePath):
         keywordNumList.append((kw, num))
 
     # ????????
-    with open(outFilePath, 'wb+') as f:
+    with open(outFilePath, 'w') as f:
         f.truncate()
         content = '\n'.join([kn[0] + '\t' + kn[1] for kn in keywordNumList])
         f.write(content)
